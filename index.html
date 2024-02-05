@@ -115,13 +115,13 @@
             max-width: 40vw;
             max-height: 40vw;
             top: 5vh;
-            right: 0vw;
+            right: 5vw;
             z-index: 3;
         }
 
         #food3 {
-            max-width: 40vw;
-            max-height: 40vw;
+            max-width: 50vw;
+            max-height: 50vw;
             top: 35vh;
             left: 10vw;
             z-index: 3;
@@ -131,7 +131,7 @@
             max-width: 40vw;
             max-height: 40vw;
             top: 65vh;
-            right: 0vw;
+            right: 5vw;
             z-index: 3;
         }
 
@@ -171,6 +171,11 @@
             position: absolute;
             top: 70vh;
             left: 20vw;
+        }
+
+        .rotate {
+            transition: transform 0.001s ease-in-out;
+            transform-origin: center center;
         }
 
     </style>
@@ -281,6 +286,15 @@
     let component1 = document.getElementById('component1');
     let component2 = document.getElementById('component2');
     let component3 = document.getElementById('component3');
+    let food2 = document.getElementById('food2');
+    let food3 = document.getElementById('food3');
+    let food4 = document.getElementById('food4');
+    let sec2 = document.querySelector('.sec-2');
+
+    let sec2Top = sec2.offsetTop;
+    let viewportHeight = window.innerHeight;
+    let thresholdForFood3 = sec2Top + (0.20 * viewportHeight);
+    let thresholdForFood4 = sec2Top + (0.30 * viewportHeight);
 
     window.addEventListener("scroll", () => {
         let value = window.scrollY;
@@ -288,6 +302,42 @@
         component1.style.top = (value* -0.02)+60 + 'vh';
         component2.style.top = (value* -0.01)+55 + 'vh';
         component3.style.top = (value* -0.04)+30 + 'vh';
+
+        if (value > sec2.offsetTop) {
+            // Apply rotation
+            let rotationDegree = (value - sec2.offsetTop) / 10;
+            let rotationDegree1 = (value - sec2.offsetTop) / 5;
+
+            food2.classList.add('rotate');
+            food2.style.transform = `rotate(${-rotationDegree}deg)`;
+
+        } else {
+            // Remove rotation
+            food2.classList.remove('rotate');
+            food2.style.transform = 'rotate(0deg)';
+        }
+
+        if (value > thresholdForFood3) {
+            let rotationDegree3 = (value - thresholdForFood3) / 5; // Adjust division for desired speed
+
+            food3.classList.add('rotate');
+            food3.style.transform = `rotate(${rotationDegree3}deg)`;
+        } else {
+            food3.classList.remove('rotate');
+            food3.style.transform = 'rotate(0deg)';
+        }
+
+        if (value > thresholdForFood4) {
+            let rotationDegree4 = (value - thresholdForFood4) / 7; // Adjust division for desired speed
+
+            food4.classList.add('rotate');
+            food4.style.transform = `rotate(${-rotationDegree4}deg)`;
+        } else {
+            food4.classList.remove('rotate');
+            food4.style.transform = 'rotate(0deg)';
+        }
+
+
     });
 </script>
 
